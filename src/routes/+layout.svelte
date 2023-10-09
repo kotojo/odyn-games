@@ -11,6 +11,9 @@
     <li class:active={$page.url.pathname === "/memorymatch"}>
       <a href="/memorymatch"><span>Memory Match</span></a>
     </li>
+    <li class:active={$page.url.pathname === "/simon"}>
+      <a href="/simon"><span>Simon</span></a>
+    </li>
   </ul>
 </nav>
 <div class="container">
