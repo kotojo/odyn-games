@@ -3,8 +3,12 @@
   let board: string[] = [];
   let shownCards: number[] = [];
   let matchedCards: number[] = [];
+  let winner = false;
 
   function startGame() {
+    winner = false;
+    matchedCards = [];
+    board = [];
     let unusedCards = Array.from([...cards, ...cards]);
     while (unusedCards.length > 0) {
       const cardIndex = Math.floor(Math.random() * unusedCards.length);
@@ -27,11 +31,10 @@
       shownCards.length == 2 &&
       board[shownCards[0]] === board[shownCards[1]]
     ) {
-      console.log("matched");
       matchedCards = [...matchedCards, ...shownCards];
       shownCards = [];
+      winner = matchedCards.length === cards.length * 2;
     } else {
-      console.log("reseting");
       setTimeout(() => {
         shownCards = [];
       }, 1000);
@@ -49,6 +52,12 @@
 
 <h2>MemoryMatch</h2>
 <div class="board">
+  {#if winner}
+    <div class="win-container">
+      <h2>You win!</h2>
+      <button on:click={startGame}>New Game?</button>
+    </div>
+  {/if}
   {#each board as card, index (card + index)}
     <div class="scene">
       <div
@@ -80,17 +89,37 @@
     aspect-ratio: 1;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(4, 1fr);
+    position: relative;
+  }
+
+  .win-container {
+    position: absolute;
+    z-index: 2;
+    background-color: white;
+    border: 1px solid #1ac9e8;
+    width: 20%;
+    height: 20%;
+    left: 40%;
+    top: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .win-container h2 {
+    margin-top: 0;
   }
 
   .scene {
-    width: 100%;
-    height: 100%;
     perspective: 600px;
   }
 
   .card {
     width: 80%;
     height: 80%;
+    margin-top: 10%;
+    margin-left: 10%;
     border: 1px solid gray;
     box-shadow: 5px 5px 5px #1ac9e8;
     position: relative;
