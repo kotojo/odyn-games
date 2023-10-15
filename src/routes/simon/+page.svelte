@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { AspectRatio } from "carbon-components-svelte";
+
   const colors = ["yellow", "blue", "red", "green"] as const;
   type colors = (typeof colors)[number];
   let gameRunning = false;
@@ -69,26 +71,30 @@
   }
 </script>
 
-<div class="simon">
-  <button
-    on:click={() => onButtonClicked("yellow")}
-    class={`yellow ${showingColor === "yellow" ? "active" : ""}`}
-  />
-  <button
-    on:click={() => onButtonClicked("blue")}
-    class={`blue ${showingColor === "blue" ? "active" : ""}`}
-  />
-  <button
-    on:click={() => onButtonClicked("red")}
-    class={`red ${showingColor === "red" ? "active" : ""}`}
-  />
-  <button
-    on:click={() => onButtonClicked("green")}
-    class={`green ${showingColor === "green" ? "active" : ""}`}
-  />
-  <button class="start" on:click={startGame}>
-    {gameRunning ? simonSays.length : "Go"}
-  </button>
+<div class="container">
+  <AspectRatio ratio="1x1">
+    <div class="simon">
+      <button
+        on:click={() => onButtonClicked("yellow")}
+        class={`yellow ${showingColor === "yellow" ? "active" : ""}`}
+      />
+      <button
+        on:click={() => onButtonClicked("blue")}
+        class={`blue ${showingColor === "blue" ? "active" : ""}`}
+      />
+      <button
+        on:click={() => onButtonClicked("red")}
+        class={`red ${showingColor === "red" ? "active" : ""}`}
+      />
+      <button
+        on:click={() => onButtonClicked("green")}
+        class={`green ${showingColor === "green" ? "active" : ""}`}
+      />
+      <button class="start" on:click={startGame}>
+        {gameRunning ? simonSays.length : "Go"}
+      </button>
+    </div>
+  </AspectRatio>
 </div>
 {#if gameLost}
   <h2>GAME LOST</h2>
@@ -102,17 +108,19 @@
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     width: 80%;
-    margin: 10% auto 0;
+    max-width: 800px;
+    margin: auto;
     aspect-ratio: 1;
   }
 
   .start {
     position: absolute;
     width: 10%;
+    min-width: var(--cds-spacing-09);
     aspect-ratio: 1;
     border-radius: 100%;
-    top: 45%;
-    left: 45%;
+    top: calc(min(45%, calc(50% - var(--cds-spacing-09) / 2)));
+    left: calc(min(45%, calc(50% - var(--cds-spacing-09) / 2)));
   }
 
   button {
