@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { activeTab } from "$lib/active-tab";
+  activeTab.set("Memory Match");
+
   const cards = ["🐶", "🐭", "🐯", "🦁", "🐧", "🐔", "🐵", "🐨"];
   let board: string[] = [];
   let shownCards: number[] = [];

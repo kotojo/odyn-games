@@ -1,38 +1,52 @@
 <script>
-  import { page } from "$app/stores";
   import {
     Content,
     Header,
-    HeaderNav,
-    HeaderNavItem,
     SideNav,
     SideNavItems,
     SideNavLink,
-    SkipToContent,
+    Theme,
   } from "carbon-components-svelte";
-  import "carbon-components-svelte/css/all.css";
+
+  import { activeTab } from "$lib/active-tab";
+  let activeTabName = "";
+  activeTab.subscribe((tab) => {
+    activeTabName = tab;
+  });
 
   let isSideNavOpen = false;
 </script>
 
-<Header company="Odyn Land" bind:isSideNavOpen>
-  <svelte:fragment slot="skip-to-content">
-    <SkipToContent />
-  </svelte:fragment>
-  <HeaderNav>
-    <HeaderNavItem text="Tic Tac Toe" href="/tictactoe" />
-    <HeaderNavItem text="Memory Match" href="/memorymatch" />
-    <HeaderNavItem text="Simon" href="/simon" />
-  </HeaderNav>
-</Header>
-<SideNav bind:isOpen={isSideNavOpen}>
-  <SideNavItems>
-    <SideNavLink text="Tic Tac Toe" href="/tictactoe" />
-    <SideNavLink text="Memory Match" href="/memorymatch" />
-    <SideNavLink text="Simon" href="/simon" />
-  </SideNavItems>
-</SideNav>
+<Theme
+  theme="g90"
+  tokens={{
+    background: "#2f52d9",
+  }}
+>
+  <Header
+    company="Odyn Land"
+    platformName={activeTabName && `- ${activeTabName}`}
+    bind:isSideNavOpen
+  />
+  <SideNav bind:isOpen={isSideNavOpen}>
+    <SideNavItems>
+      <SideNavLink text="Tic Tac Toe" href="/tictactoe" />
+      <SideNavLink text="Memory Match" href="/memorymatch" />
+      <SideNavLink text="Simon" href="/simon" />
+    </SideNavItems>
+  </SideNav>
 
-<Content>
-  <slot />
-</Content>
+  <Content>
+    <div class="app-container">
+      <slot />
+    </div>
+  </Content>
+</Theme>
+
+<style>
+  .app-container {
+    width: 100%;
+    height: 100%;
+    max-height: calc(100vh - 6rem);
+  }
+</style>

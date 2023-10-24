@@ -1,4 +1,8 @@
 <script lang="ts">
+  import { Column, Grid, Row } from "carbon-components-svelte";
+  import { activeTab } from "$lib/active-tab";
+  activeTab.set("Tic Tac Toe");
+
   const cleanBoard = [
     ["", "", ""],
     ["", "", ""],
@@ -64,51 +68,45 @@
   }
 </script>
 
-<h1>My TicTacToe in Svelte</h1>
 {#if !winner}
   <h2>{currentPlayer.toUpperCase()}'s turn</h2>
 {:else}
   <h2>{winner.toUpperCase()} wins!</h2>
   <button on:click={reset}>New Game?</button>
 {/if}
-<div class="board">
-  {#each board as row, rowIndex}
-    <div class="row">
-      {#each row as cell, cellIndex}
-        <svg
-          role="button"
-          tabindex="0"
-          viewBox="0 0 10 10"
-          class="cell"
-          on:keydown={(e) => onKeyDown(e, rowIndex, cellIndex)}
-          on:click={() => onCellSelected(rowIndex, cellIndex)}
-        >
-          <text x="1" y="9">{cell}</text>
-        </svg>
-      {/each}
-    </div>
-  {/each}
-</div>
+<Grid as>
+  <div class="game-grid">
+    {#each board as row, rowIndex}
+      <Row>
+        {#each row as cell, cellIndex}
+          <Column aspectRatio="1x1" class="cells" noGutter>
+            <svg
+              role="button"
+              tabindex="0"
+              viewBox="0 0 10 10"
+              class="cell"
+              on:keydown={(e) => onKeyDown(e, rowIndex, cellIndex)}
+              on:click={() => onCellSelected(rowIndex, cellIndex)}
+            >
+              <text x="1" y="9">{cell}</text>
+            </svg></Column
+          >
+        {/each}
+      </Row>
+    {/each}
+  </div>
+</Grid>
 
 <style>
-  .board {
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    width: 500px;
-    max-width: calc(100vw - 16px);
-    aspect-ratio: 1;
+  .game-grid {
+    height: 100%;
+    max-height: 600px;
+    aspect-ratio: 1/1;
   }
-
-  .row {
-    display: flex;
-    width: 100%;
-    height: calc(100% / 3);
-  }
-
   .cell {
     border: 1px solid red;
-    width: calc(100% / 3);
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: space-around;
     align-items: center;

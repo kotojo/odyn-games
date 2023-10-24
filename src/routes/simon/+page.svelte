@@ -1,5 +1,7 @@
 <script lang="ts">
   import { AspectRatio } from "carbon-components-svelte";
+  import { activeTab } from "$lib/active-tab";
+  activeTab.set("Simon");
 
   const colors = ["yellow", "blue", "red", "green"] as const;
   type colors = (typeof colors)[number];
